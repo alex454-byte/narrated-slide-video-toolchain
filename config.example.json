@@ -1,0 +1,8 @@
+{
+ "_note": "Copy to config.json and edit. Every number shown or spoken in the video comes from here (see VARS in tools/script.py).",
+ "title": "How this toolchain works",
+ "output_name": "demo-video",
+ "voice": "af_heart",
+ "fps": 30,
+ "example_seconds": 60
+}

@@ -1,0 +1,4 @@
+# Text-to-speech (only needed for real audio; --estimate and the tests need none of these)
+kokoro>=0.9
+soundfile
+numpy

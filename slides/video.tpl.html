@@ -1,0 +1,132 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Video scenes</title>
+<style>
+:root{--ink:#040B1A;--navy:#07142B;--panel:#0C1E3D;--line:#1B3561;--line2:#2C5BA0;
+  --blue:#3D9BFF;--ice:#A9D2FF;--text:#F2F6FC;--muted:#9FB4D3;--dim:#7C93B6;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+body{font-family:-apple-system,"SF Pro Display","Helvetica Neue",sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+.stage{position:absolute;inset:0;background:radial-gradient(1400px 900px at 78% 18%,#0E2650 0%,var(--navy) 45%,var(--ink) 100%)}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(61,155,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(61,155,255,.045) 1px,transparent 1px);
+  background-size:96px 96px;-webkit-mask-image:radial-gradient(1200px 800px at 70% 30%,#000 0%,transparent 75%)}
+section{position:absolute;inset:0;display:none;z-index:1}
+section.on{display:block}
+.pad{position:absolute;left:140px;right:140px;top:96px;bottom:200px}
+.kicker{font-size:28px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue);font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+h1{font-size:112px;line-height:1.02;font-weight:700;letter-spacing:-.025em}
+h2{font-size:66px;line-height:1.06;font-weight:700;letter-spacing:-.02em}
+.b{font-size:38px;line-height:1.35}
+.blue{color:var(--blue)}.ice{color:var(--ice)}.muted{color:var(--muted)}
+.rule{width:96px;height:4px;background:var(--blue);border-radius:2px;margin:30px 0}
+.card{background:linear-gradient(180deg,rgba(18,40,80,.78),rgba(10,24,50,.78));border:1px solid var(--line);border-radius:26px}
+.card.hl{border-color:var(--line2);background:linear-gradient(180deg,rgba(30,80,160,.55),rgba(12,30,61,.65))}
+.pill{display:inline-block;padding:8px 22px;border-radius:999px;border:1px solid var(--line2);font-size:28px;color:var(--ice);white-space:nowrap}
+.foot{position:absolute;left:140px;right:140px;top:892px;font-size:28px;color:var(--dim);z-index:3}
+.tag{position:absolute;right:140px;top:892px;font-size:24px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;z-index:3}
+svg text{font-family:-apple-system,"SF Pro Display",sans-serif}
+/* captions */
+#cap{position:absolute;left:0;right:0;top:968px;text-align:center;z-index:10}
+#cap span{display:inline-block;max-width:1640px;font-size:40px;line-height:1.25;font-weight:500;color:#fff;
+  background:rgba(3,9,22,.78);padding:12px 30px;border-radius:14px;box-shadow:0 0 0 1px rgba(61,155,255,.18)}
+#cap span:empty{display:none}
+/* evidence rows */
+.hrow{display:grid;grid-template-columns:260px 1fr 150px;align-items:center;gap:20px;margin-top:18px}
+.hrow .l{font-size:30px;color:var(--muted)}
+.track{height:34px;border-radius:8px;background:rgba(27,53,97,.45);position:relative}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:linear-gradient(90deg,#1F5FB0,#3D9BFF)}
+.flow{display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr 60px 1fr;align-items:stretch;margin-top:64px}
+.flow .card{padding:30px 28px}
+.flow .arrow{font-size:54px;text-align:center;align-self:center}
+.flow .b{font-size:32px;margin-top:14px;color:var(--muted)}
+</style></head><body>
+<div class="stage"></div>
+
+<!-- Each <section id> must match a scene id in tools/script.py.
+     data-at: "@1.2" = 1.2 s into the scene; "N" = when sentence N (0-based) starts; "N+0.5" / "N-0.2" = offset from it.
+     data-d: fade-in length (s). data-out: when to fade out again. data-var="key": filled from config values (VARS in script.py).
+     .grow + data-w: bar grows to data-w % width starting at data-at. -->
+
+<!-- 1 INTRO -->
+<section id="intro">
+  <div class="pad zoom" style="display:flex;flex-direction:column;justify-content:center">
+    <div class="kicker in" data-at="@0.2">Narrated slide video</div>
+    <div class="rule in" data-at="@0.3"></div>
+    <h1 class="in" data-at="@0.4" style="max-width:1400px" data-var="title"></h1>
+    <p class="in ice" data-at="1" style="margin-top:44px;font-size:52px;font-weight:500">Script in. Narrated, captioned video out.</p>
+  </div>
+</section>
+
+<!-- 2 PIPELINE -->
+<section id="pipeline">
+  <div class="pad">
+    <div class="kicker in" data-at="@0.1">The pipeline</div>
+    <h2 class="in" data-at="0" style="margin-top:18px">Sentence lengths drive <span class="blue">everything</span></h2>
+    <div class="flow">
+      <div class="card in" data-at="0"><div class="kicker">1 · Script</div><div class="b">Scenes and sentences in one file</div></div>
+      <div class="in blue arrow" data-at="0+1.5">&rarr;</div>
+      <div class="card in" data-at="0+2"><div class="kicker">2 · Voice</div><div class="b">Open-source TTS, one clip per sentence</div></div>
+      <div class="in blue arrow" data-at="1">&rarr;</div>
+      <div class="card hl in" data-at="1+0.5"><div class="kicker">3 · Timeline</div><div class="b">Slide elements timed to sentences</div></div>
+      <div class="in blue arrow" data-at="2">&rarr;</div>
+      <div class="card in" data-at="2+0.5"><div class="kicker">4 · Render</div><div class="b">Browser frames + ffmpeg mix</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 NUMBERS -->
+<section id="numbers">
+  <div class="pad">
+    <div class="kicker in" data-at="@0.1">One source for numbers</div>
+    <h2 class="in" data-at="0" style="margin-top:18px">config.json &rarr; narration, captions, slides</h2>
+    <div class="card in" data-at="0+1" style="padding:36px 40px;margin-top:56px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:center">
+      <div><div class="kicker">Frames per second</div><div class="num" style="font-size:96px;font-weight:700" data-var="fps"></div></div>
+      <div><div class="kicker">Example length (s)</div><div class="num" style="font-size:96px;font-weight:700" data-var="example_seconds"></div></div>
+      <div><div class="kicker">Frames</div><div class="num blue" style="font-size:96px;font-weight:700" data-var="example_frames"></div></div>
+    </div>
+    <div class="track in" data-at="0+2" style="margin-top:40px"><div class="fill grow" data-at="0+2" data-w="100"></div></div>
+    <div class="in" data-at="1" style="margin-top:40px"><span class="pill">Change the config &middot; rebuild &middot; everything agrees</span></div>
+  </div>
+  <div class="tag">Example values</div>
+</section>
+
+<div id="cap"><span></span></div>
+
+<script>
+const TL = window.__TL;
+const ease = x => x<=0?0:x>=1?1:1-Math.pow(1-x,3);
+const clamp = x => Math.max(0,Math.min(1,x));
+let S = null, beats = [];
+function at(spec){ // "@1.2" absolute | "2" sentence start | "2+0.5" | "6-0.2"
+  if(!spec) return 0;
+  if(spec[0]==='@') return parseFloat(spec.slice(1));
+  const m = spec.match(/^(\d+)([+-][\d.]+)?$/); const i=+m[1];
+  return (beats[i]!==undefined?beats[i]:S.dur) + (m[2]?parseFloat(m[2]):0);
+}
+function setScene(id){
+  S = TL.scenes.find(s=>s.id===id); beats = S.sentences.map(s=>s.start);
+  document.querySelectorAll('section').forEach(s=>s.classList.toggle('on', s.id===id));
+  document.querySelectorAll('[data-var]').forEach(e=>e.textContent = TL.vars[e.dataset.var]);
+}
+function lerp(a,b,p){return a+(b-a)*p}
+function setT(t){
+  const sec = document.getElementById(S.id);
+  // scene fade in/out (content only; background stays)
+  const fin = clamp(t/0.45), fout = clamp((S.dur - t)/0.4);
+  sec.style.opacity = Math.min(ease(fin), fout);
+  sec.querySelectorAll('.in').forEach(e=>{
+    const a = at(e.dataset.at), d = parseFloat(e.dataset.d||'0.7');
+    let p = ease(clamp((t-a)/d));
+    if(e.dataset.out){ p *= 1-ease(clamp((t-at(e.dataset.out))/0.45)); }
+    e.style.opacity = p;
+    if(e.tagName!=='svg' && !(e instanceof SVGElement)) e.style.transform = `translateY(${(1-p)*22}px)`;
+  });
+  sec.querySelectorAll('.grow').forEach(e=>{ const p=ease(clamp((t-at(e.dataset.at))/1.0)); e.style.width = (p*e.dataset.w)+'%'; });
+  sec.querySelectorAll('.zoom').forEach(e=>{ e.style.transform = `scale(${1+0.025*t/S.dur})`; e.style.transformOrigin='30% 50%'; });
+  const c = [...S.cues].reverse().find(c=>t>=c.t0 && t<c.t1+0.15);
+  document.querySelector('#cap span').textContent = c ? c.text : '';
+}
+window.setScene = setScene; window.setT = setT;
+</script>
+</body></html>

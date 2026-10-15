@@ -1,0 +1,10 @@
+{
+  "name": "narrated-slide-video-toolchain",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Turn a sentence-level script and an HTML slide template into a narrated, captioned MP4.",
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}
